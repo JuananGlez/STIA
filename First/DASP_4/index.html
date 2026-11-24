@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matcha Kraft - Energy & Focus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #061606 0%, #0D260D 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #F9FAFB;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #143314;
+            border-radius: 30px;
+            padding: 30px 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Stats Header --- */
+        .stats-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: #0D260D;
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4ADE80;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #86EFAC;
+            letter-spacing: 1px;
+        }
+
+        .stat-box:nth-child(2) .stat-value {
+            color: #F9FAFB;
+        }
+
+        .stat-box:nth-child(2) .stat-label {
+            color: #9CA3AF;
+        }
+
+        /* --- Canvas Container --- */
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            margin: 25px 0 15px;
+        }
+
+        canvas {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* --- Timer Display --- */
+        .timer-display {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .time-label {
+            font-size: 62px;
+            font-weight: bold;
+            color: #ECFDF5;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .status-text {
+            font-size: 12px;
+            font-weight: bold;
+            color: #4ADE80;
+            font-style: italic;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        /* --- Controls --- */
+        .controls {
+            background: #061606;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .slider-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #F3F4F6;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .slider-range {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #166534 0%, #22C55E 50%, #4ADE80 100%);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 10px 0 20px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #4ADE80;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(74, 222, 128, 0.4);
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #86EFAC;
+            box-shadow: 0 4px 12px rgba(134, 239, 172, 0.6);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #4ADE80;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(74, 222, 128, 0.4);
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            background: #86EFAC;
+            box-shadow: 0 4px 12px rgba(134, 239, 172, 0.6);
+        }
+
+        .button {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .btn-start {
+            background: #166534;
+            color: #F0FDF4;
+            box-shadow: 0 4px 15px rgba(22, 101, 52, 0.3);
+        }
+
+        .btn-start:hover {
+            background: #14532D;
+            box-shadow: 0 6px 20px rgba(22, 101, 52, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-pause {
+            background: #991B1B;
+            color: #FEE2E2;
+        }
+
+        .btn-pause:hover {
+            background: #7F1D1D;
+            transform: translateY(-2px);
+        }
+
+        .btn-resume {
+            background: #166534;
+            color: #F0FDF4;
+        }
+
+        .btn-resume:hover {
+            background: #14532D;
+            transform: translateY(-2px);
+        }
+
+        .btn-now {
+            background: linear-gradient(135deg, #4ADE80 0%, #22C55E 100%);
+            color: #061606;
+            font-weight: 900;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .btn-now:hover {
+            background: linear-gradient(135deg, #86EFAC 0%, #4ADE80 100%);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-now:active {
+            transform: translateY(0);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .time-label {
+                font-size: 48px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+        }
+
+        /* --- Notification Toast --- */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #166534;
+            color: #F0FDF4;
+            padding: 16px 24px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+            animation: slideUp 0.3s ease-out;
+            z-index: 1000;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .toast.hide {
+            animation: slideDown 0.3s ease-out forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Stats Header -->
+        <div class="stats-header">
+            <div class="stat-box">
+                <div class="stat-value" id="streakValue">0</div>
+                <div class="stat-label">RACHA ACTUAL</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="elapsedValue">--:--</div>
+                <div class="stat-label">TIEMPO SIN BEBER</div>
+            </div>
+        </div>
+
+        <!-- Canvas for Can Illustration -->
+        <div class="canvas-container">
+            <canvas id="canCanvas" width="260" height="280"></canvas>
+        </div>
+
+        <!-- Timer Display -->
+        <div class="timer-display">
+            <div class="time-label" id="timeLabel">30:00</div>
+            <div class="status-text" id="statusText">MATCHA KRAFT • NATURAL ENERGY</div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="slider-label">
+                <span id="intervalLabel">Intervalo: 30 min</span>
+                <span class="slider-range">5–60 min</span>
+            </div>
+            <input type="range" id="minutesSlider" min="5" max="60" value="30" step="1">
+            <button class="button btn-start" id="startButton">INICIAR ENERGÍA</button>
+            <button class="button btn-now" id="nowButton">AHORA</button>
+        </div>
+    </div>
+
+    <script>
+        // ============ STATE ============
+        const state = {
+            defaultMinutes: 30,
+            totalSeconds: 30 * 60,
+            remainingSeconds: 30 * 60,
+            running: false,
+            endTimestamp: 0,
+            streak: 0,
+            lastDrinkTime: null,
+            timerIntervalId: null,
+            elapsedIntervalId: null
+        };
+
+        // ============ DOM ELEMENTS ============
+        const canvas = document.getElementById('canCanvas');
+        const ctx = canvas.getContext('2d');
+        const timeLabel = document.getElementById('timeLabel');
+        const statusText = document.getElementById('statusText');
+        const streakValue = document.getElementById('streakValue');
+        const elapsedValue = document.getElementById('elapsedValue');
+        const startButton = document.getElementById('startButton');
+        const minutesSlider = document.getElementById('minutesSlider');
+        const intervalLabel = document.getElementById('intervalLabel');
+
+        // ============ INITIALIZATION ============
+        function init() {
+            drawCan(1.0);
+            updateTimeLabel();
+            startElapsedCounter();
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            startButton.addEventListener('click', toggleTimer);
+            minutesSlider.addEventListener('input', onSliderChange);
+            document.getElementById('nowButton').addEventListener('click', drinkNow);
+        }
+
+        // ============ SLIDER HANDLING ============
+        function onSliderChange(e) {
+            const minutes = parseInt(e.target.value);
+            intervalLabel.textContent = `Intervalo: ${minutes} min`;
+
+            if (!state.running) {
+                state.totalSeconds = minutes * 60;
+                state.remainingSeconds = state.totalSeconds;
+                updateTimeLabel();
+                drawCan(1.0);
+            }
+        }
+
+        // ============ DRINK NOW FUNCTION ============
+        function drinkNow() {
+            // Detener el temporizador actual si está corriendo
+            if (state.running) {
+                pauseTimer();
+            }
+
+            // Incrementar racha
+            state.streak++;
+            streakValue.textContent = state.streak;
+
+            // Reiniciar tiempo sin beber
+            state.lastDrinkTime = Date.now();
+            updateElapsedLabel();
+
+            // Reproducir sonido
+            playAlertSound();
+
+            // Mostrar notificación
+            showToast('¡Bebiste Matcha Kraft! Racha actualizada.');
+
+            // Reiniciar el temporizador automáticamente
+            const minutes = parseInt(minutesSlider.value);
+            state.totalSeconds = minutes * 60;
+            state.remainingSeconds = state.totalSeconds;
+            updateTimeLabel();
+            drawCan(1.0);
+
+            // Iniciar automáticamente
+            startTimer();
+        }
+
+        // ============ TIMER CONTROL ============
+        function toggleTimer() {
+            if (state.running) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            if (state.remainingSeconds <= 0) {
+                const minutes = parseInt(minutesSlider.value);
+                state.totalSeconds = minutes * 60;
+                state.remainingSeconds = state.totalSeconds;
+            }
+
+            state.running = true;
+            state.endTimestamp = performance.now() / 1000 + state.remainingSeconds;
+            startButton.textContent = 'PAUSAR';
+            startButton.classList.remove('btn-start', 'btn-resume');
+            startButton.classList.add('btn-pause');
+            minutesSlider.disabled = true;
+
+            tick();
+        }
+
+        function pauseTimer() {
+            state.running = false;
+            state.remainingSeconds = Math.max(0, state.endTimestamp - performance.now() / 1000);
+            startButton.textContent = 'REANUDAR';
+            startButton.classList.remove('btn-start', 'btn-pause');
+            startButton.classList.add('btn-resume');
+            minutesSlider.disabled = false;
+
+            if (state.timerIntervalId) {
+                clearInterval(state.timerIntervalId);
+                state.timerIntervalId = null;
+            }
+        }
+
+        function tick() {
+            if (!state.running) return;
+
+            state.remainingSeconds = Math.max(0, state.endTimestamp - performance.now() / 1000);
+            updateTimeLabel();
+
+            const level = state.totalSeconds > 0 ? state.remainingSeconds / state.totalSeconds : 0;
+            drawCan(Math.max(0, Math.min(1, level)));
+
+            if (state.remainingSeconds <= 0) {
+                completeTimer();
+                return;
+            }
+
+            state.timerIntervalId = setTimeout(tick, 250);
+        }
+
+        function completeTimer() {
+            state.running = false;
+            state.streak++;
+            state.lastDrinkTime = Date.now();
+            streakValue.textContent = state.streak;
+
+            playAlertSound();
+            showToast('¡Temporizador finalizado! Es hora de tu Matcha Kraft.');
+
+            startButton.textContent = 'INICIAR ENERGÍA';
+            startButton.classList.remove('btn-pause', 'btn-resume');
+            startButton.classList.add('btn-start');
+            minutesSlider.disabled = false;
+
+            // Reset
+            const minutes = parseInt(minutesSlider.value);
+            state.totalSeconds = minutes * 60;
+            state.remainingSeconds = state.totalSeconds;
+            updateTimeLabel();
+            drawCan(1.0);
+        }
+
+        // ============ DISPLAY UPDATES ============
+        function updateTimeLabel() {
+            const seconds = Math.ceil(Math.max(0, state.remainingSeconds));
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            timeLabel.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function startElapsedCounter() {
+            updateElapsedLabel();
+        }
+
+        function updateElapsedLabel() {
+            if (state.lastDrinkTime === null) {
+                elapsedValue.textContent = '--:--';
+            } else {
+                const diff = (Date.now() - state.lastDrinkTime) / 1000;
+                const mins = Math.floor(diff / 60);
+                const secs = Math.floor(diff % 60);
+
+                if (mins > 99) {
+                    elapsedValue.textContent = `${mins}m`;
+                } else {
+                    elapsedValue.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                }
+            }
+
+            state.elapsedIntervalId = setTimeout(updateElapsedLabel, 1000);
+        }
+
+        // ============ CANVAS DRAWING ============
+        function drawCan(level) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const canTop = 40;
+            const canBottom = 230;
+            const canLeft = 85;
+            const canRight = 175;
+
+            // Clear canvas
+            ctx.fillStyle = '#143314';
+            ctx.fillRect(0, 0, width, height);
+
+            // Shadow
+            ctx.fillStyle = '#061606';
+            ctx.beginPath();
+            ctx.ellipse(centerX, canBottom + 10, 50, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Can body (green background)
+            ctx.fillStyle = '#3F6212';
+            ctx.fillRect(canLeft, canTop, canRight - canLeft, canBottom - canTop);
+            ctx.strokeStyle = '#166534';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(canLeft, canTop, canRight - canLeft, canBottom - canTop);
+
+            // Liquid fill (dynamic level)
+            if (level > 0.01) {
+                const fillY = canBottom - level * (canBottom - canTop);
+                ctx.fillStyle = '#4ADE80';
+                ctx.fillRect(canLeft + 2, fillY, canRight - canLeft - 4, canBottom - 2 - fillY);
+            }
+
+            // Top cap (metallic)
+            ctx.fillStyle = '#9CA3AF';
+            ctx.fillRect(canLeft - 2, canTop - 5, canRight - canLeft + 4, 5);
+            ctx.strokeStyle = '#4B5563';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(canLeft - 2, canTop - 5, canRight - canLeft + 4, 5);
+
+            // Bottom base (metallic)
+            ctx.fillStyle = '#9CA3AF';
+            ctx.fillRect(canLeft - 2, canBottom, canRight - canLeft + 4, 5);
+            ctx.strokeStyle = '#4B5563';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(canLeft - 2, canBottom, canRight - canLeft + 4, 5);
+
+            // Brand text
+            ctx.fillStyle = '#F0FDF4';
+            ctx.font = 'bold 18px Impact';
+            ctx.textAlign = 'center';
+            ctx.fillText('MATCHA', centerX, canTop + 60);
+            ctx.fillText('KRAFT', centerX, canTop + 85);
+
+            // Leaf logo (minimalist)
+            ctx.strokeStyle = '#BBF7D0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(centerX, canTop + 30);
+            ctx.lineTo(centerX, canTop + 45);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#BBF7D0';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.ellipse(centerX, canTop + 37, 8, 10, 0, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Level percentage
+            ctx.fillStyle = '#061606';
+            ctx.font = 'bold 10px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${Math.round(level * 100)}%`, centerX, canBottom - 20);
+        }
+
+        // ============ AUDIO ============
+        function playAlertSound() {
+            // Web Audio API para generar un beep
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = 1000; // 1000 Hz
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.6);
+            } catch (e) {
+                console.log('Audio no disponible');
+            }
+        }
+
+        // ============ NOTIFICATIONS ============
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // ============ STARTUP ============
+        init();
+    </script>
+</body>
+</html>

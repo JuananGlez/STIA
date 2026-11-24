@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OpenSolutions · Gestiona tu empresa conversando</title>
+<style>
+:root{--bg:#f4f7fb;--sf:#fff;--tx:#0b2447;--mu:#5a6b86;--ln:#dbe3ef;--ac:#0a7cff;--acd:#0b2447;--ok:#12805c;--wn:#b4540a;--bub:#e8f1ff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1628;--sf:#11213a;--tx:#e8eefb;--mu:#93a4c2;--ln:#223555;--ac:#4aa0ff;--acd:#e8eefb;--ok:#43c79a;--wn:#f0a05a;--bub:#16335c}}
+:root[data-theme="dark"]{--bg:#0a1628;--sf:#11213a;--tx:#e8eefb;--mu:#93a4c2;--ln:#223555;--ac:#4aa0ff;--acd:#e8eefb;--ok:#43c79a;--wn:#f0a05a;--bub:#16335c}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Plus Jakarta Sans","Segoe UI",system-ui,sans-serif}
+a{color:inherit}
+.w{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--ln);z-index:5}
+header .w{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.5px;text-decoration:none;color:var(--acd)}
+.logo i{font-style:normal;color:var(--ac)}
+nav{display:flex;gap:20px;align-items:center;font-size:14px}
+nav a{text-decoration:none;color:var(--mu)}
+.btn{display:inline-block;background:var(--ac);color:#fff;border:0;border-radius:8px;padding:11px 20px;font:600 15px inherit;text-decoration:none;cursor:pointer}
+.btn.o{background:transparent;color:var(--tx);border:1px solid var(--ln)}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.hero{padding:64px 0 40px}
+h1{font-size:clamp(34px,6vw,60px);line-height:1.05;letter-spacing:-2px;margin:0 0 18px;max-width:14em}
+.hero p{font-size:19px;color:var(--mu);max-width:36em;margin:0 0 26px}
+h2{font-size:clamp(26px,4vw,36px);letter-spacing:-1px;margin:0 0 8px}
+.sub{color:var(--mu);margin:0 0 26px;max-width:40em}
+section{padding:40px 0}
+.demo{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.chat{display:flex;flex-direction:column;height:620px}
+.ch{padding:12px 16px;border-bottom:1px solid var(--ln);display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.ch span{color:var(--mu);font-size:12px}
+#log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.m{max-width:92%;padding:10px 14px;border-radius:12px;font-size:15px}
+.u{align-self:flex-end;background:var(--ac);color:#fff}
+.b{align-self:flex-start;background:var(--bub)}
+.b.t{color:var(--mu)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px;border-top:1px solid var(--ln)}
+.chip{background:transparent;border:1px solid var(--ln);color:var(--tx);border-radius:99px;padding:6px 12px;font:13px inherit;cursor:pointer}
+.chip:hover{border-color:var(--ac)}
+form{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--ln)}
+input{flex:1;min-width:0;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:10px 12px;font:15px inherit}
+.side{padding:16px}
+.side h3{margin:0 0 4px;font-size:16px}
+.side p{margin:0 0 12px;font-size:13px;color:var(--mu)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--ln)}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+@keyframes fl{from{background:var(--bub)}to{background:transparent}}
+tr.fl{animation:fl 2s}
+.doc{background:var(--sf);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:14px;margin-top:8px;font-size:13px}
+.dh{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}
+.tot{text-align:right;margin-top:8px;line-height:1.7}
+.tot b{font-size:16px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:110px;margin:10px 0 4px}
+.bars div{flex:1;background:var(--ac);border-radius:4px 4px 0 0;position:relative;min-height:4px}
+.bars em{position:absolute;top:-17px;left:0;right:0;text-align:center;font-style:normal;font-size:11px}
+.lbl{display:flex;gap:8px;font-size:11px;color:var(--mu)}.lbl span{flex:1;text-align:center}
+.kp{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.kp div{flex:1;min-width:90px;border:1px solid var(--ln);border-radius:8px;padding:8px}.kp b{display:block;font-size:16px}
+.al{border-left:4px solid var(--wn);padding-left:10px;margin-top:6px}
+.acts{display:flex;gap:8px;margin-top:10px}
+.acts .btn{padding:7px 14px;font-size:13px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.plan{padding:20px}
+.plan.hl{border:2px solid var(--ac)}
+.plan h3{margin:0}.plan .pr{font-size:28px;font-weight:800;letter-spacing:-1px;margin:8px 0}.plan .pr small{font-size:13px;font-weight:500;color:var(--mu)}
+.plan p{color:var(--mu);font-size:14px;margin:0}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.feat h3{margin:0 0 4px;font-size:17px}.feat p{margin:0;color:var(--mu);font-size:15px}
+.note{font-size:12px;color:var(--mu);margin-top:10px}
+footer{border-top:1px solid var(--ln);padding:28px 0;color:var(--mu);font-size:14px}
+@media(max-width:820px){.demo{grid-template-columns:1fr}.chat{height:560px;height:min(640px,calc(100dvh - 130px));min-height:460px}nav a:not(.btn){display:none}.w{padding:0 16px}.hero{padding:36px 0 24px}section{padding:28px 0}h1{letter-spacing:-1px}.hero p{font-size:17px}.m{max-width:96%}.chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}.chip{white-space:nowrap;padding:9px 14px}input{font-size:16px}.btn{padding:12px 18px}.doc{overflow-x:auto}.doc table{min-width:290px}.acts .btn{flex:1}.side{overflow-x:auto}}
+@media(prefers-reduced-motion:reduce){tr.fl{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="w"><a class="logo" href="#top">Open<i>Solutions</i></a>
+<nav><a href="#demo">Demo</a><a href="#como">Cómo funciona</a><a href="#planes">Planes</a><a class="btn" href="#demo">Probar gratis</a></nav></div></header>
+
+<main id="top">
+<div class="w hero">
+<h1>Dedica tu fuerza al negocio, no a las cuentas.</h1>
+<p>Pide por chat o por voz lo que antes hacías entre menús: actualizar el inventario, emitir una factura, sacar un informe. Tus datos se quedan solo en tu empresa.</p>
+<a class="btn" href="#demo">Probar la demo</a> <a class="btn o" href="#planes">Ver planes</a>
+</div>
+
+<section id="demo"><div class="w">
+<h2>Habla con tu empresa</h2>
+<p class="sub">Esta demo simula el asistente con una ferretería inventada. Prueba las sugerencias o escribe con tus palabras: «añade 30 pinturas», «presupuesto para Hotel Los Patios»…</p>
+<div class="demo">
+<div class="card chat">
+<div class="ch"><b>Asistente OpenSolutions</b><span>Demo simulada · datos ficticios</span></div>
+<div id="log" aria-live="polite"></div>
+<div class="chips" id="chips"></div>
+<form id="f"><input id="q" placeholder="Escribe una orden…" aria-label="Mensaje" autocomplete="off"><button class="btn" type="submit">Enviar</button></form>
+</div>
+<div class="card side">
+<h3>Inventario · Ferretería Los Califas</h3>
+<p>Se actualiza cuando se lo pides al asistente.</p>
+<table><thead><tr><th>Producto</th><th class="r">Uds.</th><th class="r">Precio</th></tr></thead><tbody id="inv"></tbody></table>
+<p class="note">Todos los nombres, cifras y clientes son inventados.</p>
+</div></div></div></section>
+
+<section id="como"><div class="w">
+<h2>Cómo funciona</h2><p class="sub">Del registro gratuito a un asistente que conoce tu negocio.</p>
+<div class="feat">
+<div><h3>Prueba sin compromiso</h3><p>Regístrate en el plan gratuito y lanza tus primeras órdenes en dos minutos desde el móvil.</p></div>
+<div><h3>Conectamos tus datos</h3><p>Un técnico incorpora tu base de datos actual al servidor de OpenSolutions.</p></div>
+<div><h3>Alertas a tu medida</h3><p>Te avisamos si baja el stock o si tu mejor cliente compra menos de lo habitual.</p></div>
+<div><h3>Tú decides siempre</h3><p>El marketing lo proponen los agentes, pero solo se lanza cuando respondes «Sí».</p></div>
+</div></div></section>
+
+<section id="planes"><div class="w">
+<h2>Planes</h2><p class="sub">Paga por el tiempo que ahorras, no por líneas de código.</p>
+<div class="plans">
+<div class="card plan"><h3>Freemium</h3><div class="pr">0 €</div><p>Acceso limitado para probar la herramienta en nuestro servidor.</p></div>
+<div class="card plan hl"><h3>Premium Cloud</h3><div class="pr">575 € <small>/mes</small></div><p>Acceso total sobre servidor en la nube, alertas proactivas y marketing asistido.</p></div>
+<div class="card plan"><h3>Local</h3><div class="pr">10.000 € <small>pago único</small></div><p>Servidor instalado en tu oficina. Los datos nunca salen de tu empresa.</p></div>
+<div class="card plan"><h3>Mantenimiento</h3><div class="pr">250 € <small>/mes o 30 €/h</small></div><p>Soporte, actualizaciones de agentes y parches de seguridad.</p></div>
+</div></div></section>
+</main>
+<footer><div class="w">OpenSolutions · Centro de Córdoba · Demostración académica con datos ficticios.</div></footer>
+
+<script>
+const N=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const eur=n=>n.toLocaleString("es-ES",{style:"currency",currency:"EUR"});
+const inv=[{k:"tornillo",n:"Tornillos M6 (caja 100)",q:240,p:12.5},{k:"taladro",n:"Taladro percutor 800 W",q:18,p:89},{k:"pintura",n:"Pintura blanca 15 L",q:32,p:46},{k:"cinta",n:"Cinta métrica 5 m",q:57,p:6.9}];
+const cli={ruiz:{n:"Construcciones Ruiz S.L.",c:"B14000001",l:[[0,20],[1,2]]},almodovar:{n:"Reformas Almodóvar",c:"B14000002",l:[[2,12],[3,10]]},patios:{n:"Hotel Los Patios",c:"B14000003",l:[[2,30],[0,8]]}};
+let nf=41,pend=null;
+const log=document.getElementById("log"),inp=document.getElementById("q");
+
+function drawInv(hi){document.getElementById("inv").innerHTML=inv.map((x,i)=>`<tr class="${i===hi?"fl":""}"><td>${x.n}</td><td class="r">${x.q}</td><td class="r">${eur(x.p)}</td></tr>`).join("")}
+function add(cls,html){const d=document.createElement("div");d.className="m "+cls;d.innerHTML=html;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
+function bot(html){const t=add("b t","Escribiendo…");setTimeout(()=>{t.remove();add("b",html)},650)}
+
+function doc(tipo,c){
+ const pre=tipo==="Factura"?"F-2026-":"P-2026-",num=pre+String(nf++).padStart(4,"0");
+ let base=0;const rows=c.l.map(([i,q])=>{const t=inv[i].p*q;base+=t;return`<tr><td>${inv[i].n}</td><td class="r">${q}</td><td class="r">${eur(inv[i].p)}</td><td class="r">${eur(t)}</td></tr>`}).join("");
+ return`He preparado ${tipo==="Factura"?"la factura":"el presupuesto"} para <b>${c.n}</b>.<div class="doc"><div class="dh"><b>${tipo.toUpperCase()} ${num}</b><span>24/11/2026</span></div><div>${c.n} · CIF ${c.c}</div><table><thead><tr><th>Concepto</th><th class="r">Uds.</th><th class="r">Precio</th><th class="r">Importe</th></tr></thead><tbody>${rows}</tbody></table><div class="tot">Base imponible ${eur(base)}<br>IVA 21 % ${eur(base*.21)}<br><b>Total ${eur(base*1.21)}</b></div></div>`}
+
+function informe(){
+ const m=["Jun","Jul","Ago","Sep","Oct","Nov"],v=[18.2,19.5,17.8,21.4,22.1,20.3],mx=Math.max(...v);
+ return`Aquí tienes el informe de ventas de los últimos seis meses.<div class="doc"><b>Ventas mensuales (miles de €)</b><div class="bars">${v.map(x=>`<div style="height:${x/mx*100}%"><em>${x}</em></div>`).join("")}</div><div class="lbl">${m.map(x=>`<span>${x}</span>`).join("")}</div><div class="kp"><div><b>${eur(119300)}</b>Ventas semestre</div><div><b>31,4 %</b>Margen bruto</div><div><b>Constr. Ruiz</b>Mejor cliente</div></div></div>Octubre fue tu mejor mes. En noviembre bajas un 8 % respecto a octubre.`}
+
+function reply(t){
+ const s=N(t);
+ if(pend&&/^(si|sí|vale|ok|adelante|aprobad)/.test(s)){pend=null;return"Hecho. Campaña programada para mañana a las 9:00 en Instagram y Google. Se aplicará la comisión de servicios avanzados de marketing, que verás en tu próxima factura."}
+ if(pend&&/^no/.test(s)){pend=null;return"Entendido, no lanzo nada. Cuando quieras, preparo otra propuesta."}
+ if(/factura|presupuesto/.test(s)){
+  const c=cli[Object.keys(cli).find(k=>s.includes(k)||(k==="patios"&&s.includes("hotel")))]||cli.ruiz;
+  return doc(/presupuesto/.test(s)?"Presupuesto":"Factura",c)}
+ if(/informe|ventas|resumen|trimestre/.test(s))return informe();
+ if(/alerta|irregular|aviso|detecta/.test(s))return`<div class="al"><b>Alerta de cliente</b><br>Construcciones Ruiz ha comprado un 38 % menos este mes que su media de los últimos seis. Es tu cliente principal (24 % de la facturación).<br>¿Quieres que te prepare una oferta para recuperarlo?</div>`;
+ if(/marketing|campana|promocion|anuncio/.test(s)){pend=1;return`Propuesta de campaña: <b>«Reforma tu casa en otoño»</b>.<div class="doc">Canales: Instagram y Google Ads<br>Presupuesto: 300 € en 15 días<br>Oferta: 10 % en pintura y cinta de carrocero<br>Previsión: 40-60 contactos nuevos</div><div class="acts"><button class="btn" data-a="Sí">Aprobar</button><button class="btn o" data-a="No">Rechazar</button></div>`}
+ const p=inv.findIndex(x=>s.includes(x.k));
+ if(p>=0&&/\d+/.test(s)&&/(a[nñ]ade|suma|entra|recib|sube|resta|baja|quita|vend|salida|descuenta|actualiza)/.test(s)){
+  const q=+s.match(/\d+/)[0],neg=/(resta|baja|quita|vend|salida|descuenta)/.test(s);
+  if(neg&&q>inv[p].q)return`Solo quedan ${inv[p].q} unidades de ${inv[p].n}; no puedo restar ${q}.`;
+  inv[p].q+=neg?-q:q;drawInv(p);
+  return`Listo: ${neg?"resto":"añado"} ${q} uds. de <b>${inv[p].n}</b>. Stock actual: <b>${inv[p].q}</b>.`+(inv[p].q<20?" Ojo, está por debajo del umbral de alerta (20 uds.).":"")}
+ return"Puedo modificar el inventario, crear facturas y presupuestos, sacar informes, avisarte de irregularidades y proponer campañas de marketing. Prueba una de las sugerencias."}
+
+function send(t){t=t.trim();if(!t)return;add("u",t.replace(/</g,"&lt;"));bot(reply(t))}
+document.getElementById("f").addEventListener("submit",e=>{e.preventDefault();send(inp.value);inp.value=""});
+log.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(b)send(b.dataset.a)});
+const sug=["Añade 50 cajas de tornillos","Resta 3 taladros","Factura para Construcciones Ruiz","Presupuesto para Hotel Los Patios","Informe de ventas del semestre","¿Hay alguna alerta?","Propón una campaña de marketing"];
+document.getElementById("chips").innerHTML=sug.map(x=>`<button class="chip" type="button">${x}</button>`).join("");
+document.getElementById("chips").addEventListener("click",e=>{if(e.target.classList.contains("chip"))send(e.target.textContent)});
+drawInv(-1);
+add("b","Hola, soy el asistente de Ferretería Los Califas. ¿Qué necesitas hoy? Elige una sugerencia o escríbeme.");
+</script>
+</body>
+</html>
